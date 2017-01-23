@@ -1,10 +1,41 @@
-import autopy
+import os
+import sys
 import time
 import math
 import threading
-import os
 import numpy as np
 
+
+import __builtin__
+def autopyCheck():
+    if sys.version_info >= (3,0):
+        try:
+             import autopy3
+        except ImportError:
+            print('noexist3')
+        else:
+            import autopy3
+            __builtin__.autopy = autopy3
+    else:
+        try:
+            import autopy
+        except ImportError:
+            print("""
+to install autopy:
+$ git clone git://github.com/msanders/autopy.git
+
+$ cd autopy
+
+$ python setup.py build
+
+$ python setup.py install"""
+            )
+        else:
+            import autopy
+            __builtin__.autopy = autopy
+
+
+autopyCheck()
 # Circle portion
 width, height = 400, 400
 a, b = 200, 200
@@ -16,14 +47,7 @@ instance = np.linspace(0, 2*np.pi, num=1000)
 x = [(alpha * np.sqrt(2)*np.cos(i) / (np.sin(i)**2+1))+400 for i in instance]
 y = [alpha * np.sqrt(2)*np.cos(i)*np.sin(i) / (np.sin(i)**2+1)+400 for i in instance]
 
-# to install autopy:
-# $ git clone git://github.com/msanders/autopy.git
-#
-# $ cd autopy
-#
-# $ python setup.py build
-#
-# $ python setup.py install
+
 
 timeInterval = raw_input('Set interval (in seconds) between mouse movement: ')
 timeInterval = int(timeInterval)
@@ -53,7 +77,8 @@ def mouseMove():
         if (counter % 2 == 0):
             drawCicle()
         else:
-            drawLemniscate()
+            for x in range(0, 3):
+                drawLemniscate()
         counter += 1
     else:
         print('Drawing circles')
