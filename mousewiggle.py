@@ -16,7 +16,7 @@ r = 150
 timeInterval = raw_input('Set interval (in seconds) between mouse movement: ')
 timeInterval = int(timeInterval)
 
-print('You can stop this at any time by pressing "CTRL + C"')
+print('You can stop this at any time by pressing ' + '\x1b[6;37;44m' + "CTRL + C" + '\x1b[0m')
 
 def drawCicle():
     for x in range(0, 3):
